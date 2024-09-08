@@ -46,5 +46,11 @@ jobs:
         with:
           name: linux
 
+      - name: Create directory if not exists
+        run: mkdir -p ./linux
+
+      - name: Move artifact to expected path
+        run: mv ./${{ env.FILE_NAME }} ./linux/
+
       - name: Run Script
         run: source ./run.sh
