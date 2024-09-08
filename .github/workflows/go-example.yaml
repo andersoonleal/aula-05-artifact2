@@ -17,19 +17,19 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build for Linux
-        run: go build -o ${{ env.FILE_NAME }}.out ${{ env.FILE_NAME }}.go
+        run: go build ${{ env.FILE_NAME }}.go
 
       - name: Build for Windows
-        run: GOOS=windows GOARCH=amd64 go build -o ${{ env.FILE_NAME }}.exe ${{ env.FILE_NAME }}.go
+        run: GOOS=windows GOARCH=amd64 go build ${{ env.FILE_NAME }}.go
 
       - name: Upload artifact for Linux
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1.0.0
         with:
           name: linux
-          path: ./${{ env.FILE_NAME }}.out
+          path: ./${{ env.FILE_NAME }}
 
       - name: Upload artifact for Windows
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1.0.0
         with:
           name: windows
           path: ./${{ env.FILE_NAME }}.exe
@@ -46,22 +46,14 @@ jobs:
         with:
           name: linux
 
-      - name: List files in workspace
-        run: ls -al
-
       - name: Create directory if not exists
         run: mkdir -p ./linux
 
       - name: Move artifact to expected path
-        run: mv ./${{ env.FILE_NAME }}.out ./linux/
-
-      - name: List files in linux directory after move
-        run: ls -al ./linux
+        run: mv ./${{ env.FILE_NAME }} ./linux/
 
       - name: Run Script
-        run: |
-          chmod +x ./linux/${{ env.FILE_NAME }}.out
-          ./linux/${{ env.FILE_NAME }}.out
+        run: source ./run.sh
 
   download-only-windows:
     runs-on: windows-latest
@@ -74,6 +66,3 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: windows
-
-      - name: List files in workspace
-        run: dir
