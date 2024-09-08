@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '*/15 * * * 1-6'  # Schedule to run every 15 minutes from Monday to Saturday
+    - cron: '*/15 * * * 1-6'
 
 jobs:
   build-go:
@@ -51,12 +51,6 @@ jobs:
 
       - name: Create directory if not exists
         run: mkdir -p ./linux
-
-      - name: List files in workspace before move
-        run: ls -al
-
-      - name: Move artifact to expected path
-        run: mv ./${{ env.FILE_NAME }}.out ./linux/
 
       - name: List files in linux directory
         run: ls -al ./linux
