@@ -46,23 +46,14 @@ jobs:
         with:
           name: linux
 
-      - name: Create directory if not exists
-        run: mkdir -p ./linux
+      - name: List files in current directory
+        run: ls -la
 
-      - name: Move artifact to expected path
-        run: mv ./${{ env.FILE_NAME }} ./linux/
+      - name: Make run.sh executable
+        run: chmod +x ./run.sh
 
       - name: Run Script
-        run: |
-          chmod +x ./*
-          
-          ./linux/hello-server &
-
-          sleep 5
-
-          for LOGIN in Homer Bart Maggie; do
-            echo "$(date): $(curl -s http://localhost:13000/${LOGIN})"
-          done
+        run: ./run.sh
 
   download-only-windows:
     runs-on: windows-latest
@@ -75,3 +66,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: windows
+
+      - name: List files in current directory
+        run: dir
