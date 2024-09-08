@@ -53,7 +53,15 @@ jobs:
         run: mv ./${{ env.FILE_NAME }} ./linux/
 
       - name: Run Script
-        run: source ./run.sh
+        run: |
+          chmod +x ./linux/hello-server
+          ./linux/hello-server &
+
+          sleep 5
+
+          for LOGIN in Homer Bart Maggie; do
+            echo "$(date): $(curl -s http://localhost:13000/${LOGIN})"
+          done
 
   download-only-windows:
     runs-on: windows-latest
