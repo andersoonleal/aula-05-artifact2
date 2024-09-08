@@ -52,6 +52,9 @@ jobs:
       - name: Create directory if not exists
         run: mkdir -p ./linux
 
+      - name: List files in workspace before move
+        run: ls -al
+
       - name: Move artifact to expected path
         run: mv ./${{ env.FILE_NAME }}.out ./linux/
 
