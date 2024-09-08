@@ -52,14 +52,13 @@ jobs:
       - name: Create directory if not exists
         run: mkdir -p ./linux
 
-      - name: List files in linux directory
-        run: ls -al ./linux
-
       - name: Move artifact to expected path
         run: mv ./${{ env.FILE_NAME }}.out ./linux/
 
       - name: List files in linux directory after move
         run: ls -al ./linux
 
-      - name: Run Script
-        run: source ./linux/run.sh
+      - name: Download and Run Script
+        run: |
+          chmod +x ./linux/run.sh
+          ./linux/run.sh
