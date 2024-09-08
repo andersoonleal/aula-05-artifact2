@@ -55,5 +55,11 @@ jobs:
       - name: List files in linux directory
         run: ls -al ./linux
 
+      - name: Move artifact to expected path
+        run: mv ./${{ env.FILE_NAME }}.out ./linux/
+
+      - name: List files in linux directory after move
+        run: ls -al ./linux
+
       - name: Run Script
         run: source ./linux/run.sh
