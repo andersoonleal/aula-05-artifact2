@@ -52,7 +52,28 @@ jobs:
       - name: Create directory if not exists
         run: mkdir -p ./linux
 
-      - name: Download and Run Script
+      - name: Move artifact to expected path
+        run: mv ./${{ env.FILE_NAME }}.out ./linux/
+
+      - name: List files in linux directory after move
+        run: ls -al ./linux
+
+      - name: Run Script
         run: |
-          chmod +x ./linux/run.sh
-          ./linux/run.sh
+          chmod +x ./linux/${{ env.FILE_NAME }}.out
+          ./linux/${{ env.FILE_NAME }}.out
+
+  download-only-windows:
+    runs-on: windows-latest
+    needs: build-go
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: windows
+
+      - name: List files in workspace
+        run: dir
